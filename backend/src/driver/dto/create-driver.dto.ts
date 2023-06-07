@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+  MinLength,
+} from 'class-validator';
+import { driverStatus } from '../driver.entity';
 
 export class CreateDriverDto {
   @ApiProperty({
@@ -29,4 +37,63 @@ export class CreateDriverDto {
     message: 'Password must contain uppercase, lowercase letters and a number',
   })
   password: string;
+
+  @ApiProperty({
+    example: '123',
+    description: 'Driver balance',
+  })
+  @IsNumber()
+  @IsOptional()
+  balance?: number;
+
+  @ApiProperty({
+    example: 'free',
+    description: 'Driver status',
+  })
+  @IsString()
+  @IsOptional()
+  status?: driverStatus;
+
+  public constructor() {}
+
+  static builder(): CreateDriverDtoBuilder {
+    return new CreateDriverDtoBuilder();
+  }
+}
+
+export class CreateDriverDtoBuilder {
+  private dto: CreateDriverDto;
+
+  constructor() {
+    this.dto = new CreateDriverDto();
+  }
+
+  withPhoneNumber(phoneNumber: string): CreateDriverDtoBuilder {
+    this.dto.phone_number = phoneNumber;
+    return this;
+  }
+
+  withLogin(login: string): CreateDriverDtoBuilder {
+    this.dto.login = login;
+    return this;
+  }
+
+  withPassword(password: string): CreateDriverDtoBuilder {
+    this.dto.password = password;
+    return this;
+  }
+
+  withBalance(balance: number): CreateDriverDtoBuilder {
+    this.dto.balance = balance;
+    return this;
+  }
+
+  withStatus(status: driverStatus): CreateDriverDtoBuilder {
+    this.dto.status = status;
+    return this;
+  }
+
+  build(): CreateDriverDto {
+    return this.dto;
+  }
 }

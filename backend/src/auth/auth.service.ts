@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DriverAuthDto } from './dto/driver-auth.dto';
 import * as bcrypt from 'bcrypt';
-import { TokenService } from './token/token.service';
+import { TokenServiceAdapter } from './token/token.service.adapter';
 import { DriverAuthResponseDto } from './dto/driver-auth-response.dto';
 import { DriverService } from '../driver/driver.service';
 import { CreateDriverDto } from '../driver/dto/create-driver.dto';
@@ -15,7 +15,7 @@ import { Driver } from '../driver/driver.entity';
 export class AuthService {
   constructor(
     private readonly driverService: DriverService,
-    private readonly tokenService: TokenService,
+    private readonly tokenServiceAdapter: TokenServiceAdapter,
   ) {}
 
   async registration(createDriverDto: CreateDriverDto): Promise<any> {
@@ -23,7 +23,7 @@ export class AuthService {
       createDriverDto.login,
     );
     if (driverExist) {
-      throw new BadRequestException('Driver already exist');
+      throw new BadRequestException('Driver already exists');
     }
     await this.driverService.create(createDriverDto);
     return { message: 'Driver registered' };
@@ -41,8 +41,8 @@ export class AuthService {
     );
     if (!validatePassword)
       throw new NotFoundException('User email or password incorrect');
-    const tokens = await this.tokenService.getTokens(driverExist);
-    await this.tokenService.updateRefreshToken(
+    const tokens = await this.tokenServiceAdapter.getTokens(driverExist);
+    await this.tokenServiceAdapter.refreshToken(
       driverExist.id,
       tokens.refreshToken,
     );

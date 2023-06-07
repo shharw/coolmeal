@@ -30,10 +30,15 @@ export class DriverService {
 
   async create(createDriverDto: CreateDriverDto): Promise<void> {
     createDriverDto.password = await this.hashData(createDriverDto.password);
+    const dto = CreateDriverDto.builder()
+      .withPhoneNumber(createDriverDto.phone_number)
+      .withLogin(createDriverDto.login)
+      .withPassword(createDriverDto.password)
+      .withBalance(0)
+      .withStatus('free')
+      .build();
     const driver: Driver = await this.driverRepository.create({
-      ...createDriverDto,
-      balance: 0,
-      status: 'free',
+      ...dto,
     });
     await this.driverRepository.save(driver);
   }
