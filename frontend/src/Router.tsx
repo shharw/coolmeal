@@ -7,7 +7,7 @@ import MyOrder from './MyOrder/MyOrder'
 const AppRouter: React.FC = () => {
   return (
     <Routes>
-      <Route path={'/sign'} element={<Sign/>}/>
+      <Route path={'/'} element={<Sign/>}/>
       <Route path={'/orders'} element={<AllOrders/>}/>
       <Route path={'/my-order'} element={<MyOrder/>}/>
     </Routes>

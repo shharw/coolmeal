@@ -11,7 +11,7 @@ export const typeOrmConfig: DataSourceOptions = {
   password: 'aHZf63WsfM',
   database: 'coolmeal',
   logging: Boolean(process.env.TYPEORM_LOGGING),
-  // entities: [__dirname + '/../entities/*.entity{.js,.ts}'],
+  entities: [__dirname + '/../**/*.entity{.js,.ts}'],
   migrations: [__dirname + '/../migrations/*{.js,.ts}'],
   migrationsTableName: process.env.TYPEORM_MIGRATIONS_TABLE_NAME,
   migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',

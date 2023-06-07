@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import Login from './Login'
 import Register from './Register'
-// import { BiUser } from 'react-icons/bi'
-// import { BsKey, BsFillArrowRightCircleFill } from 'react-icons/bs'
 
 interface Props {
   name?: string
@@ -10,11 +8,8 @@ interface Props {
 
 const Sign: React.FC<Props> = () => {
   const [activeForm, setActiveForm] = useState<'signin' | 'signup'>('signin')
-
-  const handleSignClick = (): void => {
-    if (activeForm === 'signin') setActiveForm('signup')
-    else setActiveForm('signin')
-  }
+  const handleLoginClick = (): void => { setActiveForm('signin') }
+  const handleRegisterClick = (): void => { setActiveForm('signup') }
 
   return (
     <div>
@@ -30,12 +25,12 @@ const Sign: React.FC<Props> = () => {
             items-center border-b-2 border-b-yellow
             ">
             <div className={`p-5 ${activeForm === 'signin' ? 'bg-yellow border-2 border-white border-b-yellow' : ''}`}>
-              <button onClick={handleSignClick} className="w-full h-full">
+              <button onClick={handleLoginClick} className="w-full h-full">
                 Sign In
               </button>
             </div>
             <div className={`p-5 ${activeForm === 'signup' ? 'bg-yellow border-2 border-white border-b-yellow' : ''}`}>
-              <button onClick={handleSignClick} className="w-full h-full">
+              <button onClick={handleRegisterClick} className="w-full h-full">
                 Sign Up
               </button>
             </div>
